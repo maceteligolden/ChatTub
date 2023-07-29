@@ -4,6 +4,7 @@ import { Server } from "socket.io";
 import cors from "cors";
 import http from "http";
 import auth_router from './auth/auth.route';
+import ContactSocket from './contact/sockets/contact.scoket';
 
 const app = express();
 app.use(cors());
@@ -26,16 +27,8 @@ const io = new Server(server,
     }
 );
 
-io.on("connection", (socket) => {
-    
-    socket.on("disconnect", () => {
-        console.log("server successfully disconnected")
-    });
+ContactSocket(io);
 
-    socket.on("SEND_MESSAGE", (msg: string) => {
-        console.log("message sent" +  msg)
-    })
-});
 
 server.listen(8000, () => {
     console.log("Listening to port")
